@@ -39,14 +39,27 @@ import pytesseract
 pytesseract.tesseract_cmd = r"C:\Users\a126291\AppData\Local\Programs\Tesseract-OCR\tesseract.exe"
 
 def get_ocr_from_pdf(path_pdf,poppler_path=None):
+    r'''Get OCR from image PDF document. Also works for regular PDF.
+
+    Depends:
+    =========
+    - tesseract (get installer for windows)
+    - poppler   (get binary file from github releases for Windows)
+
+    '''
+    # path to pdf file
     path_pdf = str(path_pdf)
+
     # create temp output folder for pdm2image convert_from_path
     output_folder = 'temp_output_folder'
     if not os.path.isdir(output_folder):
         os.makedirs(output_folder)
 
+    # poppler path
     if poppler_path is None:
         poppler_path = r"C:\Users\a126291\OneDrive - AmerisourceBergen(ABC)\Softwares\poppler-23.11.0\Library\bin"
+
+    # get images from pdf
     images = convert_from_path(path_pdf,poppler_path=poppler_path,output_folder=output_folder)
     images_gray = [image.convert("L") for image in images]
 
