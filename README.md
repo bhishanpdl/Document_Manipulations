@@ -1,14 +1,29 @@
+<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
+
+- [PDF_Manipulations](#pdf_manipulations)
+- [Download Tesseract Binary](#download-tesseract-binary)
+- [Download Poppler for Windows (required by pdf2image)](#download-poppler-for-windows-required-by-pdf2image)
+- [pytesseract examples](#pytesseract-examples)
+- [OCR from image PDF](#ocr-from-image-pdf)
+- [Get PDF Info](#get-pdf-info)
+
+<!-- TOC end -->
+
+<!-- TOC --><a name="pdf_manipulations"></a>
 # PDF_Manipulations
 
 - https://github.com/madmaze/pytesseract/tree/master
 
+<!-- TOC --><a name="download-tesseract-binary"></a>
 # Download Tesseract Binary
 - https://github.com/UB-Mannheim/tesseract/wiki
 
+<!-- TOC --><a name="download-poppler-for-windows-required-by-pdf2image"></a>
 # Download Poppler for Windows (required by pdf2image)
 - https://github.com/oschwartz10612/poppler-windows
 - Go to Releases and download the **Release.xx.xx.zip** file. (not the source codes).
 
+<!-- TOC --><a name="pytesseract-examples"></a>
 # pytesseract examples
 ```python
 from pdf2image import convert_from_path, convert_from_bytes
@@ -37,6 +52,7 @@ text = pytesseract.image_to_string(image_gray)
 print(text)
 ```
 
+<!-- TOC --><a name="ocr-from-image-pdf"></a>
 # OCR from image PDF
 ```python
 from pdf2image import convert_from_path, convert_from_bytes
@@ -80,4 +96,21 @@ path_pdf = r"C:\Users\a126291\OneDrive - AmerisourceBergen(ABC)\data\pdf_files\o
 path_pdf = 'test.pdf'
 text = get_ocr_from_pdf(path_pdf)
 print(text)
+```
+
+<!-- TOC --><a name="get-pdf-info"></a>
+# Get PDF Info
+```python
+from pdf2image import pdfinfo_from_path
+
+# Path to the PDF file
+path_to_pdf = r"C:\Users\a126291\OneDrive - AmerisourceBergen(ABC)\data\pdf_files\ocr_pdf\ocr_test_small.pdf"
+
+# Get information about the PDF file
+pdf_info = pdfinfo_from_path(path_to_pdf)
+
+# Retrieve the page count from the PDF info
+page_count = pdf_info["Pages"]
+
+print(f"The PDF file has {page_count} pages.")
 ```
