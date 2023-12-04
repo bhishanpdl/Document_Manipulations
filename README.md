@@ -114,3 +114,101 @@ page_count = pdf_info["Pages"]
 
 print(f"The PDF file has {page_count} pages.")
 ```
+
+# Convert pdf to jpg using pdf2image
+```python
+from pdf2image import convert_from_path
+
+path_pdf = r'"C:\Users\a126291\OneDrive - AmerisourceBergen(ABC)\GPS\aa_Learn\PDF_Manipulation\a01_ocr\dev\data\multi-column-2p.pdf"'
+path_pdf = path_pdf[1:-1]
+images = convert_from_path(path_pdf)
+
+odir = 'output'
+if not os.path.isdir(odir):
+    os.makedirs(odir)
+
+for i,img in enumerate(images):
+    img.save(f'{odir}/page_{i:03d}.jpg')
+```
+
+# Convert pdf to jpg function
+```python
+def pdf_to_jpg(dpi=200,
+               first_page=None,
+               last_page=None,
+               size=None,
+               page_nums=None,
+               fmt = 'jpg'):
+    r"""Convert all pdfs in given path to images in respective folders.
+
+    We can also choose the size of images:
+    size = 400           preserves aspect ratio
+    size = (400,None)    preserves aspect ratio
+    size = (400,400)     won't preserve aspect ratio
+
+    Note: png conversion is much slower
+          and also output png size is much higher than jpg.
+    Example:
+    ========
+    pdf_file = "C:\Users\a126291\OneDrive - AmerisourceBergen(ABC)\GPS\p_994_Patient_Journey\docs\GSK MoRe Patient Journey 2022YTD.pdf"
+
+    pdf_path = C:\Users\a126291\OneDrive - AmerisourceBergen(ABC)\GPS\p_994_Patient_Journey\docs
+
+    References:
+    - https://pdf2image.readthedocs.io/en/latest/reference.html
+
+    """
+    import time
+    import pathlib
+    import pyperclip
+    import webbrowser
+    from pdf2image import convert_from_path
+
+    try:
+        path_cwd = pyperclip.paste()
+    except:
+        path_cwd = ''
+
+    if path_cwd[-5:-1] == '.pdf':
+        pdf_paths = [path_cwd[1:-1]]
+    else:
+        pdf_paths = glob.glob(f"{path_cwd}\*.pdf")
+
+    # if dir is not copied, return pre-maturely
+    cond1 = path_cwd[-5:-1] == '.pdf'
+    cond2 = os.path.isdir(path_cwd)
+    cond = cond1 | cond2
+    if not cond:
+        return "Clipboard is not path like."
+
+    for pdf_path in  pdf_paths:
+        base = os.path.basename(pdf_path)
+        name = base.replace('.pdf','')
+
+        odir = fr"{os.path.dirname(pdf_path)}\\images_{name}"
+        if not os.path.isdir(odir):
+            os.makedirs(odir)
+
+        images = convert_from_path(pdf_path,dpi=dpi,size=size,fmt=fmt)
+        first_page = 1 if first_page is None else first_page
+        last_page = len(images) if last_page is None else last_page
+        page_nums = list(range(first_page, last_page+1)) if page_nums is None else page_nums
+
+        for i in page_nums:
+            img = images[i-1]
+            img.save(f'{odir}/page_{i:03d}.{fmt}')
+
+    out = f"""Images are created at:
+{path_cwd}
+    """
+    pyperclip.copy(out)
+
+    return out
+
+# Usage
+import pyperclip
+import glob
+
+path_pdf = r'"C:\Users\a126291\OneDrive - AmerisourceBergen(ABC)\GPS\aa_Learn\PDF_Manipulation\a01_ocr\dev\data\multi-column-2p.pdf"'
+pdf_to_jpg(dpi=200,first_page=None,last_page=None,size=None,page_nums=None,fmt = 'jpg')
+```
