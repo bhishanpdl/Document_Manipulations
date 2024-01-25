@@ -12,7 +12,10 @@
 <!-- TOC --><a name="pdf_manipulations"></a>
 # PDF_Manipulations
 
-- https://github.com/madmaze/pytesseract/tree/master
+- [module: pytesseract](https://github.com/madmaze/pytesseract/tree/master)
+
+# Articles
+- [medium: PDF Manipulation with Python: A Comprehensive Guide to Building PDF Tools and Automation](https://medium.com/@meetjethwa3/pdf-manipulation-with-python-a-comprehensive-guide-to-building-pdf-tools-and-automation-c1b4564cdd8c)
 
 <!-- TOC --><a name="download-tesseract-binary"></a>
 # Download Tesseract Binary
